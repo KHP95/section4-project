@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- CSS only -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+
+        <!-- JavaScript Bundle with Popper -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+        <style>
+            .div1, .div2 {
+                float:left;
+                height: 50%;
+                padding: 20px;
+                
+            }
+            .div3 {clear:both;}
+        </style>
+    </head>
+    <body>
+        <header class="p-3 bg-dark text-white">
+            <h1>SQL 구문 입력</h1>
+        </header>
+        <h2>SQL로 DB와 통신. 아래 입력창에 SQL 구문 입력</h2>
+        <h3>연결상태 : {{ "연결됨" if cond==0 else "연결안됨" }}</h3>
+        <div class="div1">
+            <form action ="{{ url_for('sql') }}" method="POST">
+                <p><textarea name="sql_quote" cols="50" rows="5" placeholder="SELET * FROM movie_info"></textarea></p>
+                <button type="submit">보내기</button>&nbsp;<button type="reset">초기화</button>
+            </form>
+        </div>
+        <div class="div2">
+            <h4>스키마</h4>
+            <img src="{{ url_for('static', filename='schema.png') }}">
+        </div>
+        <div class="container div3" style="background:rgb(62, 158, 115);">
+            <h5>결과</h5>
+            {% if message %}
+                <p>{{ message }}</p>
+                {{ result | safe }}
+            {% else %}
+                <p>--결과없음--</p>
+            {% endif %}
+        </div>        
+    </body>
+</html>
