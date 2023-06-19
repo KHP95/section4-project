@@ -117,6 +117,10 @@ def sql():
                     cursor.fetchall(),
                     columns=[i[0] for i in cursor.description]
                     ).to_html(justify='center')
+                message = '성공'
+                
+                return render_template('sql.html', cond=cond, message=message,
+                               result=result)
             
             # 그외 구문(DDL, DML)이면 result 없이 성공여부만 출력
             cursor.execute("BEGIN")
@@ -126,7 +130,7 @@ def sql():
             message = '성공'
 
         except Exception as e:
-            # cursor.execute("ROLLBAK")
+            conn.rollback() if conn else None
             result = ''
             message = f'실패 : {e}'
         
@@ -159,7 +163,7 @@ def model_page():
 @app.route('/dashboard', methods=['GET'])
 def dashboard():
     # metabase로 redirect
-    return redirect('http://127.0.0.1:3000')
+    return redirect('http://127.0.0.1:3000/dashboard/1')
     
 
         
